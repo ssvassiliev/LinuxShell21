@@ -9,7 +9,18 @@ objectives:
 keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
-FIXME
+Molecular modelling and simulations are widely used in structural biology, chemistry, drug dessign, materials science and many other fields of science. Visualization is a primary tool for accessing quality of molecular models, and visualization in invaluable for understanding atomic details of molecular functions. Visualization of complex macromolecular structures is challenging and requires specialized software.
+
+VMD (Visual Molecular Dynamics) is a software package for the 3D visualization, modeling and analysis of molecular systems. It is developed and freely distributed by the Theoretical and Computational Biophysics Group at the University of Illinois at Urbana-Champaign.
+
+### VMD features
+- Ability to work with large MD trajectories.
+- Wide variety of supported formats
+
+### Example Visualization
+
+### Examle analysis
+
+
 
 {% include links.md %}
-
