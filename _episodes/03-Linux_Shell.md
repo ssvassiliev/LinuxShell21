@@ -12,12 +12,36 @@ keypoints:
 
 ## Introduction
 
-## Setup
+## SETUP
 
 Windows:
-- MobaXterm https://mobaxterm.mobatek.net/
-- WSL
-- Built-in ssh client
+The best option is to install WSL.
+1. Enable the "Windows Subsystem for Linux". To do so, type "turn windows features on or off" on the search bar. Check "Windows Subsystem for Linux".
+2. Install Ubuntu https://www.microsoft.com/en-ca/p/ubuntu-2004-lts/9n6svws3rx71?rtc=1&activetab=pivot:overviewtab
+3. Install Windows Terminal https://www.microsoft.com/en-ca/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab
+
+If you have an older Windows and WSL installation does not work for you, install MobaXterm https://mobaxterm.mobatek.net/
+
+For graphical remote desktop connection you will need TigerVNC viewer. Other VNC clients will not work with CC systems.
+
+Ubuntu:
+sudo apt install vncviewer
+CentOS:
+sudo yum install tigervnc
+
+Windows/WSL:
+If you are using WSL, install vncviewer from wsl/Ubuntu command prompt as described above and VcXsrv Windows X Server https://sourceforge.net/projects/vcxsrv/
+
+Windows/MobaXterm:
+If you are using MobaXterm install TigerVNC viewer
+vncviewer64-1.11.0.exe from https://bintray.com/tigervnc/stable/tigervnc/1.11.0
+Download link: https://bintray.com/tigervnc/stable/download_file?file_path=vncviewer-1.11.0.exe
+
+MacOS:
+Install TigerVNC-1.11.0.dmg from:
+https://bintray.com/tigervnc/stable/tigervnc/1.11.0
+Download link: https://bintray.com/tigervnc/stable/download_file?file_path=TigerVNC-1.11.0.dmg
+
 
 ## Connecting to Compute Canada systems
 
