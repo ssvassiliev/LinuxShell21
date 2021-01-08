@@ -82,7 +82,8 @@ If you have MobaXterm, create a new SSH session.
 
 Download some data:
 ~~~
-git clone https://github.com/ssvassiliev/data-shell
+wget https://github.com/ssvassiliev/Linux_Shell_Moulay_group_2021/raw/gh-pages/data/data-shell.tar.gz
+tar -xf data-shell.tar.gz
 ~~~
 {: .bash}
 
