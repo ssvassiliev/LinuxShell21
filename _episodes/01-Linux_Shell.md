@@ -75,7 +75,7 @@ With Compute Canada account you can connect to any of the following systems:
 If you are using Mac, Linux or WSL open a terminal window and type:
 
 ~~~
-ssh someuser@siku.ace-net.ca
+ssh user01@noca.ace-net.training
 ~~~
 {: .bash}
 
