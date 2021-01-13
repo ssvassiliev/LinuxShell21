@@ -35,6 +35,7 @@ If you would like to try graphical remote desktop connection you will need to in
 
 Ubuntu:
 ~~~
+sudo apt update
 sudo apt install vncviewer
 ~~~
 {: .bash}
@@ -75,7 +76,7 @@ With Compute Canada account you can connect to any of the following systems:
 If you are using Mac, Linux or WSL open a terminal window and type:
 
 ~~~
-ssh user01@noca.ace-net.training
+ssh user01@nova.ace-net.training
 ~~~
 {: .bash}
 
