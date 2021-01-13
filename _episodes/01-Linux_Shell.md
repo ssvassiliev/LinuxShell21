@@ -332,6 +332,32 @@ module key   #  Search modules by keyword
 ~~~
 {: .bash}
 
+#### Where is the installed software?
+~~~
+module load nixpkgs/16.09 gcc/5.4.0 openmpi/2.1.1 amber
+env | grep EBROOTAMBER # this is where AMBER is installed
+ls $EBROOTAMBER
+~~~
+{: .bash}
+
+
+### Transferring files in/out and between clusters
+
+~~~
+cd
+scp -r data-shell svassili@cedar.computecanada.ca:scratch/ # many small files, slow!
+ssh cedar "rm -r scratch/data-shell"        # delete data-shell from cedar
+tar -cfz data-shell-test.tar data-shell     # make compressed archive
+scp data-shell-test.tar svassili@cedar.computecanada.ca:scratch # send archive
+scp -r cedar.computecanada.ca:scratch/data-shell-test.tar \
+beluga.computecanada.ca:scratch/  # Copy from cedar to beluga
+ssh cedar.computecanada.ca "cd scratch; \
+tar -xf data-shell-test.tar"   # unpack archive
+~~~
+{: .bash}
+- Username can be omitted if it is the same on both systems
+- Passwords are not necessary if ssh keys are installed
+
 ### Setting up passwordless access.
 #### Create ssh key pair.
 ~~~
@@ -371,23 +397,6 @@ ssh-copy-id -i ~/.ssh/id_rsa someuser@siku.ace-net.ca:
 Permissions of the file authorized_keys are important! Passwordless access will only work if the file authorized_keys is accessible only for the owner.
 
 MobaXterm users can follow [these instructions](https://docs.computecanada.ca/wiki/Generating_SSH_keys_in_Windows/en) for installations of ssh keys.
-
-### Transferring files in/out and between clusters
-
-~~~
-cd
-scp -r data-shell svassili@cedar.computecanada.ca:scratch/ # many small files, slow!
-ssh cedar "rm -r scratch/data-shell"        # delete data-shell from cedar
-tar -cfz data-shell-test.tar data-shell     # make compressed archive
-scp data-shell-test.tar svassili@cedar.computecanada.ca:scratch # send archive
-scp -r cedar.computecanada.ca:scratch/data-shell-test.tar \
-beluga.computecanada.ca:scratch/  # Copy from cedar to beluga
-ssh cedar.computecanada.ca "cd scratch; \
-tar -xf data-shell-test.tar"   # unpack archive
-~~~
-{: .bash}
-- Username can be omitted if it is the same on both systems
-- Passwords are not necessary if ssh keys are installed
 
 
 {% include links.md %}

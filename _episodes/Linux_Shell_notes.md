@@ -659,13 +659,70 @@ find . -name *.pdb -maxdepth 2
 find . -type d
 ~~~
 
-### Transferring data in and out of the CC systems
+### Filesystems and quota
 
-scp
-rsync
-globus
+|Filesystem| Quota| Intended usage |
+|----------|------|----------------|
+home       |user  | source code, small parameter files and job scripts
+projects   |group | research data
+scratch    |user  |	intensive i/o operations, temporary files
+nearline   |user  |	tape storage, backup and storage of large files
 
-winscp, bit
+`home` and `projects` directories are backed up daily.
+
+`scratch` is purged every month (data older than 60 days is deleted).
+
+#### Your storage space limits
+~~~
+quota
+~~~
+{: .bash}
+
+### Running globally-installed software
+We keep software separated from OS. Our compute nodes have only operating system environment nesessary for their function in a cluster. Software stack is installed and managed centrally. Software modules are installed in user environment dynamically when they are needed. This is done using `module`
+
+~~~
+module spider # show all available modules
+module spider octave  # show what versions are available
+module spider octave/5.2.0  # show how to load octave/5.2.0
+module load StdEnv/2020 octave  # load default octave
+module unload octave  # Unload module
+module purge # Reset to default modules
+module list	  #	List loaded modules
+module avail	#	List compatible with currently loaded modules
+module key   #  Search modules by keyword
+~~~
+{: .bash}
+
+#### Where is the installed software?
+Sometimes it is necessary to know where is the installed package. For example you want to see what datafiles, utilities and docs are installed.
+
+When a module is loaded, a number of environment variables is added to your shell.  The variable EBROOT[SOMEMODULE] is pointing to the directory where `SOMEMODULE` is installed. You can print all environment variables using the `env` command
+
+~~~
+module load nixpkgs/16.09 gcc/5.4.0 openmpi/2.1.1 amber
+env | grep EBROOTAMBER # this is where AMBER is installed
+ls $EBROOTAMBER
+~~~
+
+
+### Transferring files in/out and between clusters
+
+~~~
+cd
+scp -r data-shell svassili@cedar.computecanada.ca:scratch/ # many small files, slow!
+ssh cedar "rm -r scratch/data-shell"        # delete data-shell from cedar
+tar -cfz data-shell-test.tar data-shell     # make compressed archive
+scp data-shell-test.tar svassili@cedar.computecanada.ca:scratch # send archive
+scp -r cedar.computecanada.ca:scratch/data-shell-test.tar \
+beluga.computecanada.ca:scratch/  # Copy from cedar to beluga
+ssh cedar.computecanada.ca "cd scratch; \
+tar -xf data-shell-test.tar"   # unpack archive
+~~~
+{: .bash}
+- Username can be omitted if it is the same on both systems
+- Passwords are not necessary if ssh keys are installed
+
 
 ### Shell Environment Variables
 
@@ -675,9 +732,6 @@ SECONDS
 USER
 SCRATCH
 
-##### Variables set by loading modules.
-
-EBROOT
 
 ##### Variables set by SLURM.
 
@@ -688,19 +742,6 @@ SLURM_TASKS_PER_NODE
 SLURM_JOB_CPUS_PER_NODE
 SLURM_NODELIST
 SLURM_TMPDIR
-
-### Filesystems and quota
-
-|Filesystem| Quota| Intended usage |
-|----------|------|----------|
-home|user|source code, small parameter files and job scripts|
-projects|group| research data|
-scratch|user |	temporary files, intensive i/o operations
-nearline|user|	tape storage for backups and large files
-
-`home` and `projects` directories are backed up daily.
-
-`scratch` is purged every month (data older than 60 days is deleted).
 
 
 ### Setting up passwordless access.
@@ -744,10 +785,6 @@ Permissions of the file authorized_keys are important! Passwordless access will 
 
 MobaXterm users can follow [these instructions](https://docs.computecanada.ca/wiki/Generating_SSH_keys_in_Windows/en) for installations of ssh keys.
 
-
-
-
-### We Keep software separated from OS.
 
 ### JupyterHubs on Beluga and Siku
 [Beluga](https://jupyterhub.beluga.calculcanada.ca/hub/login)
