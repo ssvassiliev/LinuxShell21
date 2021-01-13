@@ -86,13 +86,13 @@ When you open ssh session you will be logged in to one of the LOGIN nodes.
 
 How do you know if you are on a login node?
 
-System  | Login nodes  | Compute nodes|
--------|---------------|-------------|
-graham  |gra-login[1-3] |gra
+System  | Login nodes   | Compute nodes|
+--------|---------------|-------------|
+graham  |gra-login[1-3] | gra
 cedar   |cedar[1-5]     | cdr
 beluga  |beluga[1-5]    | blg
 siku    |login[1-2]     | cl
-virtual | login         | node, gpu-node
+nova    | login         | node, gpu-node
 
 ### Navigating files and directories
 
@@ -299,6 +299,38 @@ nearline|user|	tape storage, backup and storage of large files
 
 `scratch` is purged every month (data older than 60 days is deleted).
 
+#### Your storage space limits
+~~~
+quota
+~~~
+{: .bash}
+
+~~~
+[svassili@gra-login3 ~]$ quota
+                            Description                Space           # of files
+                  /home (user svassili)               39G/53G            160k/500k
+                /scratch (user svassili)            8923M/20T            12k/1000k
+               /project (group svassili)              0/2048k               0/500k
+           /project (group def-svassili)            12G/1000G             51k/500k
+           /project (group def-bcrawfor)            17G/1000G            1279/500k
+~~~
+{: .output}
+
+/project (group svassili) should not have any files!
+
+### Running globally-installed software
+~~~
+module spider # show all available modules
+module spider octave  # show what versions are available
+module spider octave/5.2.0  # show how to load octave/5.2.0
+module load StdEnv/2020 octave  # load default octave
+module unload octave  # Unload module
+module purge # Reset to default modules
+module list	  #	List loaded modules
+module avail	#	List compatible with currently loaded modules
+module key   #  Search modules by keyword
+~~~
+{: .bash}
 
 ### Setting up passwordless access.
 #### Create ssh key pair.
@@ -340,180 +372,22 @@ Permissions of the file authorized_keys are important! Passwordless access will 
 
 MobaXterm users can follow [these instructions](https://docs.computecanada.ca/wiki/Generating_SSH_keys_in_Windows/en) for installations of ssh keys.
 
-
-#### JupyterHubs on Beluga and Siku
-[Beluga](https://jupyterhub.beluga.calculcanada.ca/hub/login)
-[Siku](https://services.siku.ace-net.ca/jupyter/hub/spawn)
-
-#### Using Virtual Environments in JupyterHub
-
-#### Installing and activating virtual environment:
+### Transferring files in/out and between clusters
 
 ~~~
-module load StdEnv/2020 python/3.8.2 scipy-stack
-virtualenv env-382
-source env-382/bin/activate
-pip install ipykernel
-python -m ipykernel install --user --name=env-382
+cd
+scp -r data-shell svassili@cedar.computecanada.ca:scratch/ # many small files, slow!
+ssh cedar "rm -r scratch/data-shell"        # delete data-shell from cedar
+tar -cfz data-shell-test.tar data-shell     # make compressed archive
+scp data-shell-test.tar svassili@cedar.computecanada.ca:scratch # send archive
+scp -r cedar.computecanada.ca:scratch/data-shell-test.tar \
+beluga.computecanada.ca:scratch/  # Copy from cedar to beluga
+ssh cedar.computecanada.ca "cd scratch; \
+tar -xf data-shell-test.tar"   # unpack archive
 ~~~
 {: .bash}
-
-#### Uninstalling virtual environment:
-
-~~~
-jupyter kernelspec list
-jupyter kernelspec uninstall env-382
-~~~
-{: .bash}
-
-Restart server:
-File -> Hub Control Panel -> Stop My Server -> My Server
-
-#### Visualization nodes on Graham
-Graham has dedicated visualization node **gra-vdi.computecanada.ca**. To start using it you need to install TigerVNC Viewer. RealVNC or any other client will not work.
-- Direct connection from your laptop with TigerVNC Viewer.
-- Visualization node is shared between all logged in users, may be lagging depending on the workload.
-
-
-
-#### Connecting graphically to a compute node.
-It is also possible to connect to a remote VNC desktop running on any compute node. For this you need to start VNC server on a compute node and establish ssh tunnel from your local computer to the node.
-
-Let's first complete X-server setup for WSL:
-1. Configure X-sever application.
-- run the application. the default settings are fine.
-- when prompted save configuration settings
-- to start service automatically copy the configuration file into the "Startup" folder. It can be accessed by pressing Windows + r and then typing "shell:startup".
-2. Add the following lines into the file ~/.bashrc
-
-~~~
-DISPLAY=:0.
-~~~
-{: .file-content}
-
-Exercise
-
-- On Cedar submit interactive job
-
-~~~
-[svassili@cedar5 scratch]$ salloc --mem-per-cpu=1000 --time=3:0:0 --account=def-somePI
-~~~
-{: .bash}
-
-- Once allocation is granted start VNC server
-
-~~~
-[svassili@cdr774 scratch]$ vncserver
-~~~
-{: .bash}
-
-~~~
-New 'cdr774.int.cedar.computecanada.ca:1 (svassili)' desktop is cdr774.int.cedar.computecanada.ca:1
-~~~
-{: .output}
-
-Note the name of compute node (cdr774) and number of VNC session (:1). The base port number of VNC server is 5900. Port number to connect to vnc session is 5900 + session number = 5901 in this example. Do not close this terminal.
-- Open ssh tunnel from your local computer to cdr774 (this command is executed on your LOCAL computer)
-
-~~~
-darkstar:~$ ssh cedar -L 5901:cdr774:5901
-~~~
-{: .source}
-
-It will link port 5901 on cdr774 with port 5901 on your laptop.  Format of the command is LocalPort:RemoteHost:RemotePort. Once connection is established you can connect VNC viewer on your local computer to localhost:5901.
-
-You can use the script Launch_VNC.sh located in data-shell directory to connect to a compute node via VNC.
-
-Example plot matlab
-~~~
-tx = ty = linspace (-8, 8, 41)';
-[xx, yy] = meshgrid (tx, ty);
-r = sqrt (xx .^ 2 + yy .^ 2) + eps;
-tz = sin (r) ./ r;
-mesh (tx, ty, tz);
-~~~
-{: .matlab}
-
-### Tensorflow
-Check what tensorflow versions are available
-
-~~~
-avail_wheels tensorflow* --all-pythons --all-versions
-~~~
-{: .bash}
-
-Create a virtual environment and install tensorflow-gpu:
-
-~~~
-module load StdEnv/2020 python
-virtualenv ~/env382-tf
-source ~/env382-tf/bin/activate
-pip install tensorflow-gpu
-~~~
-{: .bash}
-
-Allocate GPU, load modules and activate the environment
-
-~~~
-salloc -c2 --mem-per-cpu=4000 --gres=gpu:1
-module load StdEnv/2020 python cudacore/.11.0.2 cudnn
-source ~/env382-tf/bin/activate
-python
-~~~
-{: .bash}
-
-TF cuda test
-
-~~~
-import tensorflow as tf
-node1 = tf.constant(3.0)
-node2 = tf.constant(4.0)
-print(node1, node2)
-print(node1 + node2)
-~~~
-{: .python}
-
-TF/Keras test:
-
-~~~
-import tensorflow as tf
-mnist = tf.keras.datasets.mnist
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_train, x_test = x_train / 255.0, x_test / 255.0
-
-model = tf.keras.models.Sequential([
-  tf.keras.layers.Flatten(input_shape=(28, 28)),
-  tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dropout(0.2),
-  tf.keras.layers.Dense(10)
-])
-predictions = model(x_train[:1]).numpy()
-print(predictions)
-loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-print(loss_fn(y_train[:1], predictions).numpy())
-model.compile(optimizer='adam',
-              loss=loss_fn,
-              metrics=['accuracy'])
-model.fit(x_train, y_train, epochs=5)
-model.evaluate(x_test,  y_test, verbose=2)
-~~~
-{: .python}
-
-Submission script:
-~~~
-#!/bin/bash
-#SBATCH -c1 --mem-per-cpu=4000 --gres=gpu:1 --time=1:0:0
-
-module load StdEnv/2020 python cudacore/.11.0.2 cudnn
-source ~/env382-tf/bin/activate
-SECONDS=0
-python tfTest.py
-echo Elapsed $SECONDS seconds
-~~~
-{: .file-content}
-
-[Machine learning tutorial](
-https://docs.computecanada.ca/wiki/Tutoriel_Apprentissage_machine/en)
+- Username can be omitted if it is the same on both systems
+- Passwords are not necessary if ssh keys are installed
 
 
 {% include links.md %}
