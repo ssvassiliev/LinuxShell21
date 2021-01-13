@@ -4,7 +4,7 @@ teaching: 90
 exercises: 0
 questions:
 - "How to submit jobs"
-- "How to install modules in Pythin"
+- "How to install modules in Python"
 - "How to use Jupyter notebooks"
 objectives:
 - "Learn how to use virtual environments"
