@@ -678,36 +678,8 @@ quota
 ~~~
 {: .bash}
 
-### Running globally-installed software
-We keep software separated from OS. Our compute nodes have only operating system environment nesessary for their function in a cluster. Software stack is installed and managed centrally. Software modules are installed in user environment dynamically when they are needed. This is done using `module`
-
-~~~
-module spider # show all available modules
-module spider octave  # show what versions are available
-module spider octave/5.2.0  # show how to load octave/5.2.0
-module load StdEnv/2020 octave  # load default octave
-module unload octave  # Unload module
-module purge # Reset to default modules
-module list	  #	List loaded modules
-module avail	#	List compatible with currently loaded modules
-module key   #  Search modules by keyword
-~~~
-{: .bash}
-
-#### Where is the installed software?
-Sometimes it is necessary to know where is the installed package. For example you want to see what datafiles, utilities and docs are installed.
-
-When a module is loaded, a number of environment variables is added to your shell.  The variable EBROOT[SOMEMODULE] is pointing to the directory where `SOMEMODULE` is installed. You can print all environment variables using the `env` command
-
-~~~
-module load nixpkgs/16.09 gcc/5.4.0 openmpi/2.1.1 amber
-env | grep EBROOTAMBER # this is where AMBER is installed
-ls $EBROOTAMBER
-~~~
-
 
 ### Transferring files in/out and between clusters
-
 ~~~
 cd
 scp -r data-shell svassili@cedar.computecanada.ca:scratch/ # many small files, slow!
@@ -731,17 +703,6 @@ PATH
 SECONDS
 USER
 SCRATCH
-
-
-##### Variables set by SLURM.
-
-SLURM VARIABLES
-
-SLURM_JOB_NUM_NODES
-SLURM_TASKS_PER_NODE
-SLURM_JOB_CPUS_PER_NODE
-SLURM_NODELIST
-SLURM_TMPDIR
 
 
 ### Setting up passwordless access.
