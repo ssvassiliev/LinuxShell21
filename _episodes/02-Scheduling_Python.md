@@ -302,7 +302,7 @@ pip install tensorflow-gpu
 Allocate GPU, load modules and activate the environment
 ~~~
 salloc -c2 --mem-per-cpu=4000 --gres=gpu:1
-#module load StdEnv/2020 python cudacore/.11.0.2 cudnn
+module load StdEnv/2020 python cudacore/.11.0.2 cudnn
 source ~/env-382-jn/bin/activate
 python
 ~~~
@@ -351,7 +351,7 @@ File submit.sh
 #!/bin/bash
 #SBATCH -c1 --mem-per-cpu=4000 --gres=gpu:1 --time=1:0:0
 
-#module load StdEnv/2020 python cudacore/.11.0.2 cudnn
+module load StdEnv/2020 python cudacore/.11.0.2 cudnn
 source ~/env-382-jn/bin/activate
 SECONDS=0
 python mnist.py
@@ -400,7 +400,7 @@ print(c)
 ##### Nova has only single GPU nodes, but we can allocate 2 GPUs on Siku and use them from tensorflow:
 ~~~
 salloc -c2 --mem-per-cpu=4000 --gres=gpu:v100:2 --partition=all_gpus
-#module load StdEnv/2020 python cudacore/.11.0.2 cudnn
+module load StdEnv/2020 python cudacore/.11.0.2 cudnn
 source ~/env382-tf/bin/activate
 python
 ~~~
