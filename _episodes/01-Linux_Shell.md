@@ -319,29 +319,6 @@ quota
 
 /project (group svassili) should not have any files!
 
-### Running globally-installed software
-~~~
-module spider # show all available modules
-module spider octave  # show what versions are available
-module spider octave/5.2.0  # show how to load octave/5.2.0
-module load StdEnv/2020 octave  # load default octave
-module unload octave  # Unload module
-module purge # Reset to default modules
-module list	  #	List loaded modules
-module avail	#	List compatible with currently loaded modules
-module key   #  Search modules by keyword
-~~~
-{: .bash}
-
-#### Where is the installed software?
-~~~
-module load nixpkgs/16.09 gcc/5.4.0 openmpi/2.1.1 amber
-env | grep EBROOTAMBER # this is where AMBER is installed
-ls $EBROOTAMBER
-~~~
-{: .bash}
-
-
 ### Transferring files in/out and between clusters
 
 ~~~
