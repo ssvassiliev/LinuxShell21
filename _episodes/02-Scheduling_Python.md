@@ -5,9 +5,12 @@ exercises: 0
 questions:
 - "How to submit jobs"
 - "How to install modules in Python"
-- "How to use Jupyter notebooks"
+- "How to launch Jupyter notebooks on clusters"
+- "How to add virtual environment to Jupyter nnotebook"
 objectives:
-- "Learn how to use virtual environments"
+- "Learn how to install software on clusters"
+- "Learn how to create an use virtual environments"
+- "Learm how to launch Jupyter on clusters"
 keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
