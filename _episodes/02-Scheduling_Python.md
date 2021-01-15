@@ -34,9 +34,9 @@ module key   #  Search modules by keyword
 
 #### Where is the installed software located?
 ~~~
-module load nixpkgs/16.09 gcc/5.4.0 openmpi/2.1.1 amber
-env | grep EBROOTAMBER # this is where AMBER is installed
-ls $EBROOTAMBER
+module load StdEnv/2020  gcc/9.3.0  openmpi/4.0.3 ambertools
+env | grep EBROOTAMBERTOOLS # this is where the ambertools module is installed
+ls $EBROOTAMBERTOOLS
 ~~~
 {: .bash}
 
@@ -376,7 +376,7 @@ a = tf.constant([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 c = tf.matmul(a, b)
 
-print(c)
+print(c)module
 ~~~
 {: .bash}
 
