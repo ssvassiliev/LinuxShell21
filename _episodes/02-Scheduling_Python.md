@@ -6,7 +6,7 @@ questions:
 - "How to submit jobs"
 - "How to install modules in Python"
 - "How to launch Jupyter notebooks on clusters"
-- "How to add virtual environment to Jupyter nnotebook"
+- "How to add virtual environment to Jupyter notebook"
 objectives:
 - "Learn how to install software on clusters"
 - "Learn how to create an use virtual environments"
@@ -41,7 +41,7 @@ ls $EBROOTAMBERTOOLS
 {: .bash}
 
 ### Standard Environment modules
-The combinations of specific compiler and MPI modules are grouped in modules named StdEnv, and when you login one of these environments will be loaded by default. Standard environments are used by our team to compile software.
+The combinations of specific compiler and MPI modules are grouped in modules named StdEnv. When you login, one of these modules will be loaded by default. Standard environments are used by our team to compile software.
 
 Currently, there are three versions of StdEnv:
 ~~~
