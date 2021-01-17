@@ -60,7 +60,7 @@ export LIBGL_ALWAYS_INDIRECT=1
 ~~~
 {: .file-contents}
 
-Currently it is the best to do OpenGL rendering in Windows. To start VcXsrv create the following shortcut in the `startup` folder:
+To start VcXsrv create the following shortcut in the `startup` folder:
 ~~~
 "C:\Program Files\VcXsrv\vcxsrv.exe" -ac -terminate -lesspointer -multiwindow -clipboard -dpi auto
 ~~~
