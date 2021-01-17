@@ -50,6 +50,22 @@ Windows + WSL:
 - Install vncviewer from Ubuntu command prompt as described above
 - Install [VcXsrv X-Server](https://sourceforge.net/projects/vcxsrv/)
 
+X-server with WSL2.
+
+WSL2 is accessible on a separate non-deterministic subnet. To connect X-windows apps to VcXsrv add the lines following lines to ~/.bashrc
+
+~~~
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+export LIBGL_ALWAYS_INDIRECT=1
+~~~
+{: .file-contents}
+
+Currently it is the best to do OpenGL rendering in Windows. To start VcXsrv create the following shortcut in the `startup` folder:
+~~~
+"C:\Program Files\VcXsrv\vcxsrv.exe" -ac -terminate -lesspointer -multiwindow -clipboard -dpi auto
+~~~
+{: file-content}
+
 Windows + MobaXterm:
 
 - Install [TigerVNC viewer](https://bintray.com/tigervnc/stable/tigervnc/1.11.0).
